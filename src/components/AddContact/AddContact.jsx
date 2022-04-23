@@ -1,9 +1,15 @@
+import { addTodo } from 'redux/contactSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { getContacts } from 'redux/selectors';
+
 import s from './AddContact.module.css';
 import { useState } from 'react';
 import shortid from 'shortid';
-export const AddContact = ({ setContacts, contacts }) => {
+export const AddContact = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
 
   const saveContact = name => {
     const newContact = {
@@ -15,7 +21,7 @@ export const AddContact = ({ setContacts, contacts }) => {
       alert('контакт с таким именем уже существует');
       return;
     }
-    setContacts([...contacts, newContact]);
+    dispatch(addTodo(newContact));
   };
   const hendleSubmit = e => {
     e.preventDefault();

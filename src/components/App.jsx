@@ -11,16 +11,14 @@ export const App = () => {
     { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
   ]);
   const [filter, setFilter] = useState('');
-  const visible = contacts.filter(us =>
-    us.name.toLowerCase().includes(filter.toLowerCase())
-  );
+
   return (
     <div style={{ width: 400 }}>
-      <AddContact contacts={contacts} setContacts={setContacts} />
+      <AddContact />
 
       <Filter filter={filter} setFilter={setFilter} />
 
-      <ContactList contacts={visible} setContacts={setContacts} />
+      <ContactList setContacts={setContacts} />
     </div>
   );
 };

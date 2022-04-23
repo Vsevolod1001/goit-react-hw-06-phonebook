@@ -1,11 +1,21 @@
+import { useSelector, useDispatch } from 'react-redux';
+import { getContacts, getFilter } from 'redux/selectors';
+import { deleteTodo } from 'redux/contactSlice';
 import s from './ContactList.module.css';
-export const ContactList = ({ setContacts, contacts }) => {
-  const hendleDelete = id => {
-    setContacts([...contacts].filter(us => us.id !== id));
+export const ContactList = ({ setContacts }) => {
+  const hendleDelete = e => {
+    dispatch(deleteTodo(e.currentTarget.id));
   };
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
+  const dispatch = useDispatch();
+
+  const visible = contacts.filter(us =>
+    us.name.toLowerCase().includes(filter.toLowerCase())
+  );
   return (
     <div>
-      {contacts.map(({ id, name, number }) => (
+      {visible.map(({ id, name, number }) => (
         <li key={id} className={s.listCounterCircle}>
           <p className={s.listCircle}>
             {name}: {number}
@@ -14,7 +24,8 @@ export const ContactList = ({ setContacts, contacts }) => {
           <button
             type="button"
             className={s.BtnInput}
-            onClick={() => hendleDelete(id)}
+            id={id}
+            onClick={hendleDelete}
           >
             delete
           </button>
